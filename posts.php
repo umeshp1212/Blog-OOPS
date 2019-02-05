@@ -1,26 +1,25 @@
 <?php
-include_once 'config/config.php';
+include 'inc/header.php';
+include 'inc/slider.php';
+include 'config/config.php';
 include 'lib/Database.php';
 include 'helpers/Format.php';
 ?>
-	<!-- Header Start-->
-	<?php include 'inc/header.php'?>
-	<!--Header End-->
-<?php if (!isset($_GET['id']) || $_GET['id'] == null) {
+<?php if (!isset($_GET['category']) || $_GET['category'] == null) {
     header("Location:404.php");
 } else {
-    $id = $_GET['id'];
+    $id = $_GET['category'];
 }?>
 <?php
 $db = new Database();
 $fm = new Format();
 ?>
-	<div class="contentsection contemplete clear">
+<div class="contentsection contemplete clear">
 		<div class="maincontent clear">
 			<div class="about">
 
 					<?php
-					$query = "SELECT * FROM tbl_post WHERE id = '$id'";
+					$query = "SELECT * FROM tbl_post WHERE cat = '$id'";
 					$post = $db->select($query);
 					if ($post) {
 						while ($row = $post->fetch_assoc()) {?>
@@ -43,11 +42,12 @@ $fm = new Format();
 												<?php }
 											}?>
 
-									</div>
-									<?php	}
-					}
+                                    </div>
+                                    <?php	}
+					} else {
+                        header("Location:404.php");
+                     }
 					?>
-								
 			</div>
 		</div>	
 			<!-- Sidebar Start -->

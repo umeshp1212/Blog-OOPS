@@ -19,18 +19,18 @@
 		<div class="maincontent clear">
 			<!-- Pagination  -->
 			<?php 
-			    $end_page = 2;
-				if($_GET['page']){
+			    $per_page = 1;
+				if(isset($_GET['page'])){
 					$page = $_GET['page'];
 				} else {
 					$page = 1;
 				}
-				 $start_page = ($page - 1) * $limit;
+				 $start_page = ($page - 1) * $per_page;
 			?>
 
 			<!-- Pagination -->
 			<?php 
-			$query = "SELECT * FROM tbl_post ORDER BY id limit $start_page, $end_page";
+			$query = "SELECT * FROM tbl_post ORDER BY id limit $start_page, $per_page";
 			$post = $db->select($query);
 			if($post){
 				while($row = $post->fetch_assoc()){  ?>
@@ -48,11 +48,16 @@
 					
 				 <?php } ?> <!-- While Loop End -->
 				<!-- Pagination  -->
+				<?php 
+					$query = "SELECT * FROM tbl_post";
+					$result = $db->select($query);
+					$total_rows = mysqli_num_rows($result);
+				?>
 				<?php echo "<span class='pagination'><a href='index.php?page=$page'>First</a>";
-					  echo "<a href='index.php?page=2'>2</a>";
-					  echo "<a href='index.php?page=3'>3</a>";
-					  echo "<a href='index.php?page=4'>4</a>";
-					  echo "<a href='index.php?page=5'>Last</a>";
+				     for($i = 1; $i <= $total_rows; $i++){
+						echo "<a href='index.php?page=$i'>".$i."</a>";
+					 }					 					 
+					  echo "<a href='index.php?page=$total_rows'>Last</a>";
 					  echo "</span>";
 			    ?>
 

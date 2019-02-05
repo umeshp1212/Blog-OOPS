@@ -1,41 +1,54 @@
+
+
 <div class="sidebar clear">
 			<div class="samesidebar clear">
 				<h2>Categories</h2>
+
 					<ul>
-						<li><a href="#">Category One</a></li>
-						<li><a href="#">Category Two</a></li>
-						<li><a href="#">Category Three</a></li>
-						<li><a href="#">Category Four</a></li>
-						<li><a href="#">Category Five</a></li>						
+						<?php
+							$query = "SELECT * FROM tbl_category";
+							$category = $db->select($query);
+							if($category){
+								while($row = $category->fetch_assoc()){?>
+									<li><a href="posts.php?category=<?php echo $row['id']?>"><?php echo $row['name'];?></a></li>
+
+						 <?php }
+							} else {
+								echo "<li>No Category</li>";
+							}
+						?>																
 					</ul>
 			</div>
 			
 			<div class="samesidebar clear">
 				<h2>Latest articles</h2>
-					<div class="popular clear">
-						<h3><a href="#">Post title will be go here..</a></h3>
-						<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-						<p>Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.</p>	
-					</div>
+				<?php 
+					$query = "SELECT * FROM tbl_post ORDER BY id DESC";
+					$post = $db->select($query);
+					if($post){
+						while($row = $post->fetch_assoc()){
+							$output = "";
+							$output .= "<div class='popular clear'>";
+							$output .= "<h3><a href='post.php?id=".$row['id']."'>".$row['title']."</a></h3>";
+						   
+							$output .= "<a href='#'><img src='images/".$row['image']."' alt='post image'/></a>";
+							$output .= "<p>".$fm->textShorten($row['body'], 50)."...</p>";
+							$output .= "</div>";
+						}
+						echo $output;
+					}
+
+				?>
+
+
+
 					
-					<div class="popular clear">
-						<h3><a href="#">Post title will be go here..</a></h3>
-						<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-						<p>Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.</p>	
-					</div>
 					
-					<div class="popular clear">
-						<h3><a href="#">Post title will be go here..</a></h3>
-						<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-						<p>Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.</p>	
-					</div>
 					
-					<div class="popular clear">
-						<h3><a href="#">Post title will be go here..</a></h3>
-						<a href="#"><img src="images/post1.jpg" alt="post image"/></a>
-						<p>Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.Sidebar text will be go here.</p>	
-					</div>
+					
+					
+					
 	
 			</div>
 			
-		</div>
+</div>
